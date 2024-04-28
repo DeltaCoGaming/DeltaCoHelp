@@ -17,7 +17,7 @@
           <li><a href="/community" class="block px-4 py-2 text-white hover:bg-gray-600 w-full text-center">Community</a></li>
       </ul>
       <div class="text-white text-center py-2">
-          <span id="mobileWebsiteVersion">v1.0.3</span>
+          <span id="mobileWebsiteVersion">v1.0.3</span> <!-- Version placeholder, to be updated -->
       </div>
   </div>
 </nav>
@@ -38,5 +38,17 @@
               $("#mobileMenu").hide();
           }
       });
+  });
+
+  // Version Fetching and Update
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('https://api.github.com/repos/DeltaCoGaming/DeltaCoHelp/releases/latest')
+      .then(response => response.json())
+      .then(data => {
+        const version = data.tag_name;
+        document.getElementById('websiteVersion').textContent = version;
+        document.getElementById('mobileWebsiteVersion').textContent = version; // Updates mobile version too
+      })
+      .catch(error => console.error('Error fetching version:', error));
   });
 </script>
