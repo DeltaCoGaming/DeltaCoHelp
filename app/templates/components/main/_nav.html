@@ -1,65 +1,63 @@
 <!-- Navbar Container -->
-<nav class="bg-[#b1a688] text-white w-full shadow-lg fixed top-0 left-0 z-50 hidden md:flex">
+<nav class="bg-[#b1a688] text-white w-full shadow-lg fixed top-0 left-0 z-50 hidden md:flex justify-between items-center px-4 py-3">
   <!-- Logo, Version, and Server Name -->
-  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+  <div class="flex items-center"> <!-- Removed flex-grow from here -->
       <a href="/" class="font-bold text-xl hover:text-gray-300 transition-colors duration-300">
           Delta Co Scripting
       </a>
-
-      <!-- Version Display -->
-      <div class="text-center flex-grow">
-          <span id="websiteVersion" class="text-sm md:text-md font-medium">v1.0.3</span> <!-- Placeholder for version number -->
-      </div>
-
-      <!-- Navigation Links -->
-      <ul class="flex items-center gap-6">
-          <!-- Dropdown Menu for Scripts -->
-          <li class="relative">
-              <button id="scriptsDropdownButton" class="hover:text-gray-300 transition-colors duration-300">
-                  Scripts
-              </button>
-              <!-- Dropdown Menu -->
-              <ul class="hidden absolute w-48 bg-[#b1a688] rounded shadow-lg mt-5" id="scriptsDropdownMenu">
-                  <li><a href="/extrablue/sorter" class="block px-4 py-2 hover:bg-gray-600">Vehicle Sorter</a></li>
-                  <li><a href="/extrablue/weapon-sorter" class="block px-4 py-2 hover:bg-gray-600">Weapon Tool</a></li>
-              </ul>
-          </li>
-
-          <!-- Regular Link -->
-          <li><a href="/community" class="hover:text-gray-300 transition-colors duration-300">Community</a></li>
-      </ul>
   </div>
-</nav>
 
+  <!-- Version Display, centered -->
+  <div class="flex-grow text-center">
+      <span id="websiteVersion" class="text-sm md:text-md font-medium">v1.0.3</span> <!-- Placeholder for version number -->
+  </div>
+
+  <!-- Navigation Links -->
+  <ul class="flex items-center gap-6">
+      <!-- Dropdown Menu for Scripts -->
+      <li class="relative">
+          <button id="scriptsDropdownButton" class="hover:text-gray-300 transition-colors duration-300">
+              Scripts
+          </button>
+          <!-- Dropdown Menu -->
+          <ul class="hidden absolute w-48 bg-[#b1a688] rounded shadow-lg mt-5" id="scriptsDropdownMenu">
+              <li><a href="/extrablue/sorter" class="block px-4 py-2 hover:bg-gray-600">Vehicle Sorter</a></li>
+              <li><a href="/extrablue/weapon-sorter" class="block px-4 py-2 hover:bg-gray-600">Weapon Tool</a></li>
+          </ul>
+      </li>
+
+      <!-- Regular Link -->
+      <li><a href="/community" class="hover:text-gray-300 transition-colors duration-300">Community</a></li>
+  </ul>
+</nav>
 
 <!-- jQuery for Scripts Dropdown Toggle -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
-      $('#scriptsDropdownButton').click(function() {
-          $('#scriptsDropdownMenu').toggle(); // Toggle the visibility of the dropdown menu on click
-      });
+$(document).ready(function() {
+    $('#scriptsDropdownButton').click(function() {
+        $('#scriptsDropdownMenu').toggle(); // Toggle the visibility of the dropdown menu on click
+    });
 
-      // Enhance dropdown by closing it when clicking outside
-      $(document).click(function(event) {
-          var clickover = $(event.target);
-          var _opened = $("#scriptsDropdownMenu").is(":visible");
-          if (_opened === true && !clickover.closest('#scriptsDropdownButton').length && !clickover.closest('#scriptsDropdownMenu').length) {
-              $("#scriptsDropdownMenu").hide();
-          }
-      });
-  });
+    // Enhance dropdown by closing it when clicking outside
+    $(document).click(function(event) {
+        var clickover = $(event.target);
+        var _opened = $("#scriptsDropdownMenu").is(":visible");
+        if (_opened === true && !clickover.closest('#scriptsDropdownButton').length && !clickover.closest('#scriptsDropdownMenu').length) {
+            $("#scriptsDropdownMenu").hide();
+        }
+    });
+});
 </script>
 
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    fetch('https://api.github.com/repos/DeltaCoGaming/DeltaCoHelp/releases/latest')
-      .then(response => response.json())
-      .then(data => {
-        const version = data.tag_name;
-        document.getElementById('websiteVersion').textContent = version;
-      })
-      .catch(error => console.error('Error fetching version:', error));
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('https://api.github.com/repos/DeltaCoGaming/DeltaCoHelp/releases/latest')
+    .then(response => response.json())
+    .then(data => {
+      const version = data.tag_name;
+      document.getElementById('websiteVersion').textContent = version;
+    })
+    .catch(error => console.error('Error fetching version:', error));
+});
 </script>

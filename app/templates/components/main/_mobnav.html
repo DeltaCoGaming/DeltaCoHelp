@@ -1,41 +1,61 @@
 <!-- Mobile View -->
 <nav class="bg-[#b1a688] md:hidden w-full fixed top-0 left-0 z-50">
-  <div class="px-4 py-3 flex justify-between items-center">
-      <a href="/" class="font-bold text-xl hover:text-gray-300 transition-colors duration-300">
+  <div class="px-6 py-4 flex justify-between items-center"> <!-- Increased padding -->
+      <a href="/" class="font-bold text-2xl hover:text-gray-300 transition-colors duration-300"> <!-- Increased font size -->
           Delta Co Scripting
       </a>
       <!-- Hamburger Icon -->
-      <button id="mobileMenuButton" class="text-white focus:outline-none">
+      <button id="mobileMenuButton" class="text-2xl focus:outline-none"> <!-- Increased icon size -->
           <i class="fa fa-bars"></i>
       </button>
   </div>
   <!-- Dropdown Menu, hidden initially -->
   <div id="mobileMenu" class="hidden flex-col items-center w-full">
-      <ul class="w-full">
-          <li><a href="/extrablue/sorter" class="block px-4 py-2 text-white hover:bg-gray-600 w-full text-center">Vehicle Sorter</a></li>
-          <li><a href="/extrablue/weapon-sorter" class="block px-4 py-2 text-white hover:bg-gray-600 w-full text-center">Weapon Tool</a></li>
-          <li><a href="/community" class="block px-4 py-2 text-white hover:bg-gray-600 w-full text-center">Community</a></li>
+      <ul class="w-full text-lg"> <!-- Increased text size for menu items -->
+          <!-- Scripts Dropdown -->
+          <li>
+              <button id="scriptsDropdownButtonMobile" class="block px-6 py-4 text-white w-full text-center">
+                  Scripts
+              </button>
+              <ul id="scriptsDropdownMobile" class="hidden flex-col items-center w-full">
+                  <li><a href="/extrablue/sorter" class="block px-6 py-2 text-white hover:bg-gray-600 w-full text-center">Vehicle Sorter</a></li>
+                  <li><a href="/extrablue/weapon-sorter" class="block px-6 py-2 text-white hover:bg-gray-600 w-full text-center">Weapon Tool</a></li>
+              </ul>
+          </li>
+          <!-- Other Links -->
+          <li><a href="/community" class="block px-6 py-4 text-white hover:bg-gray-600 w-full text-center">Community</a></li>
       </ul>
-      <div class="text-white text-center py-2">
-          <span id="mobileWebsiteVersion">v1.0.3</span> <!-- Version placeholder, to be updated -->
+      <div class="text-white text-center py-4 text-lg"> <!-- Increased padding and text size for version display -->
+          <span id="mobileWebsiteVersion">v1.0.3</span>
       </div>
   </div>
 </nav>
 
-<!-- jQuery for Mobile Nav Toggle -->
+<!-- jQuery for Mobile Nav Toggle and Dropdown -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
+      // Toggle main mobile menu
       $('#mobileMenuButton').click(function() {
-          $('#mobileMenu').toggle(); // Toggle the visibility of the mobile menu
+          $('#mobileMenu').toggle();
       });
 
-      // Close the menu when clicking outside of it
+      // Toggle Scripts dropdown within the mobile menu
+      $('#scriptsDropdownButtonMobile').click(function() {
+          $('#scriptsDropdownMobile').toggle();
+      });
+
+      // Close the menu when clicking outside
       $(document).click(function(event) {
           var clickover = $(event.target);
-          var _opened = $("#mobileMenu").is(":visible");
-          if (_opened === true && !clickover.closest('#mobileMenuButton').length && !clickover.closest('#mobileMenu').length) {
+          var _openedMenu = $("#mobileMenu").is(":visible");
+          var _openedDropdown = $("#scriptsDropdownMobile").is(":visible");
+
+          if (_openedMenu === true && !clickover.closest('#mobileMenuButton').length && !clickover.closest('#mobileMenu').length) {
               $("#mobileMenu").hide();
+          }
+          if (_openedDropdown === true && !clickover.closest('#scriptsDropdownButtonMobile').length && !clickover.closest('#scriptsDropdownMobile').length) {
+              $("#scriptsDropdownMobile").hide();
           }
       });
   });
