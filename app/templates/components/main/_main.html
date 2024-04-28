@@ -1,0 +1,28 @@
+<div class="flex justify-center items-center min-h-screen">
+    <div class="container mx-auto max-w-2xl bg-white rounded-xl shadow-lg p-8">
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Arma3 Vehicle Sorter</h1>
+      <form action="/extrablue/sorter" method="post" class="mb-8">
+        <textarea name="helicopters" rows="5" class="w-full p-4 rounded-lg text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4" placeholder="Enter Vehicle names separated by spaces or new lines"></textarea>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-300">
+          Sort Names
+        </button>
+      </form>
+      {% if helicopters %}
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Sorted Helicopters:</h2>
+        <pre class="bg-gray-800 text-white p-4 rounded-lg mb-4 font-mono">{% for helicopter in helicopters %}{{ helicopter }}
+{% endfor %}</pre>
+        <button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300" onclick="copyToClipboard('#sortedHelicopters')">Copy All</button>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function copyToClipboard(element) {
+      var $temp = $("<input>");
+      $("body").append($temp);
+      $temp.val($(element).text()).select();
+      document.execCommand("copy");
+      $temp.remove();
+      alert('Copied to clipboard!');
+    }
+  </script>
