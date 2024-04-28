@@ -1,0 +1,10 @@
+Flask
+Flask-Discord
+PyJWT
+requests
+
+supabase
+
+gunicorn
+
+python-dotenv

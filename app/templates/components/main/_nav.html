@@ -54,7 +54,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    fetch('https://api.github.com/repos/username/repository/releases/latest')
+    fetch('https://api.github.com/repos/DeltaCoGaming/DeltaCoHelp/releases/latest')
       .then(response => response.json())
       .then(data => {
         const version = data.tag_name;
