@@ -1,8 +1,42 @@
 <!-- Mobile View -->
-<nav class="bg-[#b1a688] md:hidden">
-
+<nav class="bg-[#b1a688] md:hidden w-full fixed top-0 left-0 z-50">
+  <div class="px-4 py-3 flex justify-between items-center">
+      <a href="/" class="font-bold text-xl hover:text-gray-300 transition-colors duration-300">
+          Delta Co Scripting
+      </a>
+      <!-- Hamburger Icon -->
+      <button id="mobileMenuButton" class="text-white focus:outline-none">
+          <i class="fa fa-bars"></i>
+      </button>
+  </div>
+  <!-- Dropdown Menu, hidden initially -->
+  <div id="mobileMenu" class="hidden flex-col items-center w-full">
+      <ul class="w-full">
+          <li><a href="/extrablue/sorter" class="block px-4 py-2 text-white hover:bg-gray-600 w-full text-center">Vehicle Sorter</a></li>
+          <li><a href="/extrablue/weapon-sorter" class="block px-4 py-2 text-white hover:bg-gray-600 w-full text-center">Weapon Tool</a></li>
+          <li><a href="/community" class="block px-4 py-2 text-white hover:bg-gray-600 w-full text-center">Community</a></li>
+      </ul>
+      <div class="text-white text-center py-2">
+          <span id="mobileWebsiteVersion">v1.0.3</span>
+      </div>
+  </div>
 </nav>
 
+<!-- jQuery for Mobile Nav Toggle -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+  $(document).ready(function() {
+      $('#mobileMenuButton').click(function() {
+          $('#mobileMenu').toggle(); // Toggle the visibility of the mobile menu
+      });
 
-    </script>
+      // Close the menu when clicking outside of it
+      $(document).click(function(event) {
+          var clickover = $(event.target);
+          var _opened = $("#mobileMenu").is(":visible");
+          if (_opened === true && !clickover.closest('#mobileMenuButton').length && !clickover.closest('#mobileMenu').length) {
+              $("#mobileMenu").hide();
+          }
+      });
+  });
+</script>
