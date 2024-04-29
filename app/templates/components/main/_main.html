@@ -9,30 +9,37 @@
       </form>
       {% if helicopters %}
       <div>
-        <h2 class="text-2xl font-bold text-gray-800">Sorted Helicopters:</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Sorted Vehicles:</h2>
         <pre id="sortedHelicopters" class="bg-gray-800 text-white p-4 rounded-lg font-mono">{{ helicopters | join('\n') }}</pre>
         <button onclick="copyToClipboard('#sortedHelicopters')" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
           Copy All
+        </button>
+        <select id="fileType" class="mb-4 bg-gray-200 rounded-lg">
+          <option value="txt">TXT File</option>
+          <option value="sqf">SQF File</option>
+        </select>
+        <button id="downloadButton" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 mt-4">
+          Download as File
         </button>
       </div>
       {% endif %}
     </div>
   </div>
 
-  <!-- Scripts for animation and notifications -->
+  
+
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script>
     AOS.init(); // Initialize AOS animations
-  </script>
-  <script>
+  
     function copyToClipboard(element) {
       var $temp = $("<input>");
       $("body").append($temp);
       $temp.val($(element).text()).select();
       document.execCommand("copy");
       $temp.remove();
-
-      // Use SweetAlert for better user feedback
+  
       Swal.fire({
         title: 'Success!',
         text: 'Copied to clipboard!',
@@ -40,8 +47,24 @@
         confirmButtonText: 'OK'
       });
     }
+  
+    document.addEventListener('DOMContentLoaded', function() {
+      var downloadBtn = document.getElementById('downloadButton');
+      downloadBtn.addEventListener('click', function() {
+        var fileType = document.getElementById('fileType').value;
+        var filename = 'sorted_helicopters.' + fileType; // Filename based on selected type
+        var data = document.getElementById('sortedHelicopters').innerText;
+        var blob = new Blob([data], { type: 'text/plain' });
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
+      });
+    });
   </script>
-
-
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  

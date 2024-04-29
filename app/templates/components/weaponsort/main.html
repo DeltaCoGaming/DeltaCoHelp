@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center min-h-screen bg-gray-100">
+<div class="flex justify-center items-center min-h-screen">
     <div class="container mx-auto max-w-2xl bg-white rounded-xl shadow-lg p-8" data-aos="fade-up" data-aos-duration="1000">
         <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Weapon Categorizer</h1>
         <form action="/extrablue/weapon-sorter" method="post">
@@ -8,59 +8,83 @@
                 Categorize Weapons
             </button>
         </form>
-        {% if categories %}
-            <div class="mt-6">
-                {% for category, items in categories.items() %}
-                <div class="accordion-section bg-gray-200 p-4 rounded-lg mb-2 cursor-pointer">
-                    <h2 onclick="toggleAccordion(this)" class="font-bold text-lg text-gray-800 flex justify-between items-center">
-                        Category: {{ category.capitalize() }}
-                        <span class="text-xl">&#x25BC;</span>
-                    </h2>
-                    <ul class="hidden mt-2 pl-4 text-gray-800">
-                        {% for item in items %}
-                        <li>{{ item }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endfor %}
-                <button onclick="copyToClipboard()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
-                    Copy All
-                </button>
-            </div>
-        {% endif %}
+        <!-- Preview and Download Area -->
+        <div id="resultsPreview" class="mt-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Preview Categories:</h2>
+            <div class="preview-container bg-gray-800 text-white p-4 rounded-lg font-mono overflow-auto" style="max-height: 300px;"></div>
+            <select id="fileType" class="mb-4 bg-gray-200 rounded-lg">
+                <option value="txt">TXT File</option>
+                <option value="sqf">SQF File</option>
+            </select>
+            <button id="copyButton" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg mt-4">
+                Copy to Clipboard
+            </button>
+            <button id="downloadButton" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mt-4">
+                Download as File
+            </button>
+        </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    AOS.init(); // Initialize AOS animations
+    document.addEventListener('DOMContentLoaded', function() {
+        var downloadBtn = document.getElementById('downloadButton');
+        var copyBtn = document.getElementById('copyButton');
 
-    function toggleAccordion(header) {
-        const icon = header.querySelector('span');
-        const list = header.nextElementSibling;
-        list.classList.toggle('hidden');
-        if (list.classList.contains('hidden')) {
-            icon.innerHTML = '&#x25BC;'; // down arrow
-        } else {
-            icon.innerHTML = '&#x25B2;'; // up arrow
-        }
-    }
+        downloadBtn.addEventListener('click', function() {
+            var fileType = document.getElementById('fileType').value;
+            var filename = 'categorized_weapons.' + fileType; // Adjust the filename based on selected file type
+            var data = document.querySelector('.preview-container').innerText;
+            var blob = new Blob([data], { type: 'text/plain' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+        });
 
-    function copyToClipboard() {
-        const textArea = document.createElement("textarea");
-        document.body.appendChild(textArea);
-        document.querySelectorAll('.accordion-section ul:not(.hidden) li').forEach(li => {
-            textArea.value += li.textContent + '\n';
+        copyBtn.addEventListener('click', function() {
+            navigator.clipboard.writeText(document.querySelector('.preview-container').innerText)
+            .then(() => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Content copied to clipboard!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            })
+            .catch(err => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to copy content: ' + err,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
         });
-        textArea.select();
-        document.execCommand("copy");
-        textArea.remove();
-        Swal.fire({
-            title: 'Success!',
-            text: 'Copied to clipboard!',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    }
+
+        // Populate the preview area if categories exist
+        {% if categories %}
+            document.querySelector('.preview-container').innerHTML = `
+                {% for category, items in categories.items() %}
+                <p class="font-bold">{{ category.capitalize() }}</p>
+                <ul>
+                    {% for item in items %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+                {% endfor %}
+            `;
+        {% endif %}
+    });
 </script>
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@10" rel="stylesheet">
+
+
+

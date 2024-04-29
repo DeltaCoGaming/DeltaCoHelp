@@ -1,54 +1,80 @@
-<!-- Navbar Container -->
-<nav class="bg-[#b1a688] text-white w-full shadow-lg fixed top-0 left-0 z-50 hidden md:flex justify-between items-center px-4 py-3">
-  <!-- Logo, Version, and Server Name -->
-  <div class="flex items-center"> <!-- Removed flex-grow from here -->
-      <a href="/" class="font-bold text-xl hover:text-gray-300 transition-colors duration-300">
+<nav class="bg-[#b1a688] text-white w-full shadow-lg fixed top-0 left-0 z-50 flex justify-between items-center px-4 py-3">
+  <div class="flex items-center"> 
+      <a href="/" class="font-bold text-xl hover:text-gray-300 transition duration-300">
           Delta Co Scripting
       </a>
   </div>
 
-  <!-- Version Display, centered -->
   <div class="flex-grow text-center">
-      <span id="websiteVersion" class="text-sm md:text-md font-medium">v1.0.3</span> <!-- Placeholder for version number -->
+      <span id="websiteVersion" class="text-sm md:text-md font-medium">v1.0.3</span> 
   </div>
 
-  <!-- Navigation Links -->
   <ul class="flex items-center gap-6">
-      <!-- Dropdown Menu for Scripts -->
       <li class="relative">
-          <button id="scriptsDropdownButton" class="hover:text-gray-300 transition-colors duration-300">
+          <button id="scriptsDropdownButton" class="hover:text-gray-300 transition duration-300">
               Scripts
           </button>
-          <!-- Dropdown Menu -->
-          <ul class="hidden absolute w-48 bg-[#b1a688] rounded shadow-lg mt-5" id="scriptsDropdownMenu">
-              <li><a href="/extrablue/sorter" class="block px-4 py-2 hover:bg-gray-600">Vehicle Sorter</a></li>
-              <li><a href="/extrablue/weapon-sorter" class="block px-4 py-2 hover:bg-gray-600">Weapon Tool</a></li>
+          <ul class="hidden absolute left-[-500px] bg-[#b1a688] rounded shadow-lg mt-5" id="scriptsDropdownMenu" style="width: 550px; min-height: 150px;">
+              <li class="p-2 grid grid-cols-3 gap-2 items-center">
+                <a href="/extrablue/sorter" class="flex flex-col items-center justify-center hover:bg-gray-600 transition duration-300 rounded-md">
+                  <img src="/static/images/navbar/status.svg" alt="Vehicle Sorter Icon" class="h-5 w-5 mb-2"> <!-- Smaller Icon -->
+                  Vehicle Sorter
+                </a>
+                <a href="/extrablue/weapon-sorter" class="flex flex-col items-center justify-center hover:bg-gray-600 transition duration-300 rounded-md">
+                  <img src="/static/images/navbar/status.svg" alt="Weapon Tool Icon" class="h-5 w-5 mb-2"> <!-- Smaller Icon -->
+                  Weapon Tool
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center hover:bg-gray-600 transition duration-300 rounded-md">
+                  <img src="/static/images/navbar/status.svg" alt="Additional Tool 1 Icon" class="h-5 w-5 mb-2"> <!-- Smaller Icon -->
+                  Additional Tool 1
+                </a>
+              </li>
+              <li class="p-2 grid grid-cols-3 gap-2 items-center">
+                <a href="#" class="flex flex-col items-center justify-center hover:bg-gray-600 transition duration-300 rounded-md">
+                  <img src="/static/images/navbar/status.svg" alt="Additional Tool 2 Icon" class="h-5 w-5 mb-2"> <!-- Smaller Icon -->
+                  Additional Tool 2
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center hover:bg-gray-600 transition duration-300 rounded-md">
+                  <img src="/static/images/navbar/status.svg" alt="Additional Tool 3 Icon" class="h-5 w-5 mb-2"> <!-- Smaller Icon -->
+                  Additional Tool 3
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center hover:bg-gray-600 transition duration-300 rounded-md">
+                  <img src="/static/images/navbar/status.svg" alt="Additional Tool 4 Icon" class="h-5 w-5 mb-2"> <!-- Smaller Icon -->
+                  Additional Tool 4
+                </a>
+              </li>
           </ul>
       </li>
 
-      <!-- Regular Link -->
-      <li><a href="/community" class="hover:text-gray-300 transition-colors duration-300">Community</a></li>
+      <li><a href="/community" class="hover:text-gray-300 transition duration-300">Community</a></li>
   </ul>
 </nav>
 
-<!-- jQuery for Scripts Dropdown Toggle -->
+
+
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#scriptsDropdownButton').click(function() {
-        $('#scriptsDropdownMenu').toggle(); // Toggle the visibility of the dropdown menu on click
-    });
-
-    // Enhance dropdown by closing it when clicking outside
-    $(document).click(function(event) {
-        var clickover = $(event.target);
-        var _opened = $("#scriptsDropdownMenu").is(":visible");
-        if (_opened === true && !clickover.closest('#scriptsDropdownButton').length && !clickover.closest('#scriptsDropdownMenu').length) {
-            $("#scriptsDropdownMenu").hide();
-        }
-    });
-});
-</script>
+  $(document).ready(function() {
+      $('#scriptsDropdownButton').click(function() {
+          var menu = $('#scriptsDropdownMenu');
+          if (menu.is(':hidden')) {
+              menu.show().css('display', 'grid'); 
+          } else {
+              menu.hide();
+          }
+      });
+  
+      $(document).click(function(event) {
+          var clickover = $(event.target);
+          var _opened = $("#scriptsDropdownMenu").is(":visible");
+          if (_opened === true && !clickover.closest('#scriptsDropdownButton').length && !clickover.closest('#scriptsDropdownMenu').length) {
+              $("#scriptsDropdownMenu").hide();
+          }
+      });
+  });
+  </script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -61,3 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(error => console.error('Error fetching version:', error));
 });
 </script>
+
+
+  
